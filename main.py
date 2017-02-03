@@ -63,7 +63,7 @@ def valid_password(password):
 
 EMAIL_RE = re.compile(r"^[\S]+@[\S]+.[\S]+$")
 def valid_email(email):
-    return not email or EMAIL_RE.match(email)
+    return email or EMAIL_RE.match(email)
 
 class MainHandler(webapp2.RequestHandler):
     def write_form(self, error_username="", error_password="", error_verify_password="", error_email="", user_username="", user_password="", user_email=""):
