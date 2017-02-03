@@ -41,7 +41,7 @@ form = """
     <tr>
         <td><label>Email(optional)</label>
         </td>
-        <td><input type='email' name='user_emailoptional' value='%(user_email)s'/>
+        <td><input type='email' name='user_email' value='%(user_email)s'/>
         <div style='color: red'>%(error_email)s</div>
         </td>
     </tr>
@@ -63,7 +63,7 @@ def valid_password(password):
 
 EMAIL_RE = re.compile(r"^[\S]+@[\S]+.[\S]+$")
 def valid_email(email):
-    return email or EMAIL_RE.match(email)
+    return not email or EMAIL_RE.match(email)
 
 class MainHandler(webapp2.RequestHandler):
     def write_form(self, error_username="", error_password="", error_verify_password="", error_email="", user_username="", user_password="", user_email=""):
@@ -98,9 +98,11 @@ class MainHandler(webapp2.RequestHandler):
         if not valid_password(password):
             error_ps = "That's not a valid password."
             have_error = True
+
         if password != verify_password:
             have_error = True
             error_vp = "Passwords don't match."
+
         if not valid_email(email):
             self.request.get(email)
             error_em = "That's not a valid email address."
